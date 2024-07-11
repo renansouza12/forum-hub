@@ -1,0 +1,12 @@
+CREATE TABLE topic(
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    title VARCHAR(255) NOT NULL,
+    message VARCHAR(255) NOT NULL,
+    create_at TIMESTAMP NOT NULL,
+    state VARCHAR(255) NOT NULL,
+    author VARCHAR(55) NOT NULL,
+    course VARCHAR(100) NOT NULL,
+
+    PRIMARY KEY(id)
+
+);
