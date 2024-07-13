@@ -1,6 +1,7 @@
 package com.renan.forum_hub.domain.topic;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import com.renan.forum_hub.dto.TopicDTO;
 
@@ -33,8 +34,9 @@ public class Topic {
     public Topic(@Valid TopicDTO topic) {
         this.title = topic.title();
         this.message = topic.message();
+        this.create_at = topic.create_at();
         this.author = topic.author();
         this.course = topic.course();
-        
+        this.state = topic.state();
     }
 }   
