@@ -1,7 +1,5 @@
 package com.renan.forum_hub.controller;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,5 +62,16 @@ public class TopicController {
         }
 
         return topic.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteTopic(@PathVariable Long id){
+        Optional<Topic> topic = this.repository.findById(id);
+
+        if(topic.isPresent()){
+            this.repository.deleteById(id);
+            return ResponseEntity.ok().build();
+        }
+        
+        return ResponseEntity.notFound().build();
     }
 }   
