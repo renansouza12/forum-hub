@@ -21,4 +21,5 @@ public record TopicDTO(
         this(topic.getId(),topic.getTitle(), topic.getMessage(), topic.getCreate_at(), topic.getAuthor(),topic.getCourse(), topic.getState());
     }
 
+
 }

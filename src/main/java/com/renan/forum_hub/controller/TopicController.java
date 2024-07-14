@@ -1,5 +1,9 @@
 package com.renan.forum_hub.controller;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -8,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.renan.forum_hub.domain.topic.Topic;
 import com.renan.forum_hub.dto.TopicDTO;
+import com.renan.forum_hub.dto.TopicUpadateDTO;
 import com.renan.forum_hub.repository.TopicRepository;
 
 import jakarta.validation.Valid;
@@ -39,4 +44,25 @@ public class TopicController {
         return ResponseEntity.ok(new TopicDTO(topic));
     }
 
-}
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Topic> updateTopic(@PathVariable Long id ,@RequestBody @Valid TopicUpadateDTO data){
+        Optional<Topic> topic = this.repository.findById(id);
+
+        if(topic.isPresent()){
+            Topic rawTopic = topic.get();
+            rawTopic.setTitle(data.title());
+            rawTopic.setMessage(data.message());
+            rawTopic.setCreate_at(data.create_at());
+            rawTopic.setAuthor(data.author());
+            rawTopic.setCourse(data.course());
+            rawTopic.setState(data.state());
+
+            this.repository.save(rawTopic);
+
+            return ResponseEntity.ok(rawTopic);
+        }
+
+        return topic.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+}   

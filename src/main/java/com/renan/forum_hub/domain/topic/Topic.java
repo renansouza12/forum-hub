@@ -1,9 +1,8 @@
 package com.renan.forum_hub.domain.topic;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
 import com.renan.forum_hub.dto.TopicDTO;
+import com.renan.forum_hub.dto.TopicUpadateDTO;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -30,7 +29,7 @@ public class Topic {
     @Column(nullable = false) private String author;
     @Column(nullable = false) private String course;
 
-    
+        
     public Topic(@Valid TopicDTO topic) {
         this.title = topic.title();
         this.message = topic.message();
@@ -39,4 +38,6 @@ public class Topic {
         this.course = topic.course();
         this.state = topic.state();
     }
+
+
 }   
