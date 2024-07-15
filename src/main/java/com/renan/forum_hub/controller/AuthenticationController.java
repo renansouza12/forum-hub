@@ -9,7 +9,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.renan.forum_hub.domain.usuario.Usuario;
 import com.renan.forum_hub.dto.AuthenticationDTO;
+import com.renan.forum_hub.infra.security.TokenJwtDTO;
+import com.renan.forum_hub.infra.security.TokenService;
 
 import jakarta.validation.Valid;
 
@@ -18,13 +21,18 @@ import jakarta.validation.Valid;
 public class AuthenticationController {
 
     @Autowired
+    private TokenService tokenService;
+
+    @Autowired
     private AuthenticationManager manager;
 
     @PostMapping
     public ResponseEntity login(@RequestBody @Valid AuthenticationDTO data){
-        var token = new UsernamePasswordAuthenticationToken(data.login(), data.password());
-        var authentication =  manager.authenticate(token);
+        var authenticationToken = new UsernamePasswordAuthenticationToken(data.login(), data.password());
+        var authentication =  manager.authenticate(authenticationToken);
+        var tokenJWT = tokenService.generateToken((Usuario) authentication.getPrincipal());
 
-        return ResponseEntity.ok().build();
+
+        return ResponseEntity.ok(new TokenJwtDTO(tokenJWT));
     }
 }
