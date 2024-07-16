@@ -17,7 +17,7 @@ import com.renan.forum_hub.domain.usuario.Usuario;
 @Service
 public class TokenService {
 
-    @Value("api.security.token.secret")
+    @Value("${api.security.token.secret}")
     private String secret;
 
     public String generateToken(Usuario usuario){
@@ -37,7 +37,7 @@ public class TokenService {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
             return JWT.require(algorithm)
-            .withIssuer("auth0")
+            .withIssuer("API forum hub")
             .build()
             .verify(tokenJWT)
             .getSubject();
